@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Resultados de Búsqueda - TeleDrink</title>
+    <title>Resultados de Búsqueda - TeleMeal</title>
     <style>
-        .meal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 20px; }
-        .meal-item { text-align: center; border: 1px solid #ddd; padding: 10px; }
+        body { margin: 0; font-family: Arial, sans-serif; }
+        .navbar { background-color: #333; overflow: hidden; padding: 10px; text-align: center; }
+        .navbar a { color: white; text-decoration: none; padding: 14px 16px; display: inline-block; }
+        .navbar a:hover { background-color: #ddd; color: black; }
+        .meal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 20px; margin-top: 80px; }
+        .meal-item { text-align: center; border: 1px solid #ddd; padding: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: transform 0.2s; }
+        .meal-item:hover { transform: scale(1.05); }
         .meal-item img { max-width: 100%; height: auto; cursor: pointer; }
+        .meal-item p { margin: 5px 0; }
     </style>
     <script th:inline="javascript">
         document.addEventListener('DOMContentLoaded', function() {
-            const respuesta = /*[[${comidas}]]*/ '';
-            const data = JSON.parse(respuesta);
+            const data = /*[[${comidas}]]*/ {};
             const comidas = data.meals || [];
             const grid = document.querySelector('.meal-grid');
             comidas.forEach(comida => {
@@ -25,7 +30,10 @@
     </script>
 </head>
 <body>
-<h1>TeleDrink</h1>
+<div class="navbar">
+    <a href="/categorias">Home</a>
+</div>
+<h1 style="text-align: center; margin-top: 60px;">TeleMeal</h1>
 <div class="meal-grid"></div>
 </body>
 </html>
