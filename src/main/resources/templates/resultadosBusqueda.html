@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Resultados de Búsqueda - TeleDrink</title>
+    <style>
+        .meal-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 20px; }
+        .meal-item { text-align: center; border: 1px solid #ddd; padding: 10px; }
+        .meal-item img { max-width: 100%; height: auto; cursor: pointer; }
+    </style>
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            const respuesta = /*[[${comidas}]]*/ '';
+            const data = JSON.parse(respuesta);
+            const comidas = data.meals || [];
+            const grid = document.querySelector('.meal-grid');
+            comidas.forEach(comida => {
+                const div = document.createElement('div');
+                div.className = 'meal-item';
+                div.innerHTML = `<img src="${comida.strMealThumb}" alt="${comida.strMeal}" onclick="window.location.href='/detalleComida?id=${comida.idMeal}'">
+                                 <p>${comida.strMeal}</p>
+                                 <p>Categoría: ${comida.strCategory}</p>`;
+                grid.appendChild(div);
+            });
+        });
+    </script>
+</head>
+<body>
+<h1>TeleDrink</h1>
+<div class="meal-grid"></div>
+</body>
+</html>
