@@ -9,6 +9,8 @@
         .search-bar { margin-top: 20px; text-align: center; }
         .search-bar input { padding: 5px; width: 200px; }
         .search-bar button { padding: 5px 10px; }
+        .favorites-btn { position: absolute; top: 10px; right: 10px; padding: 5px 10px; }
+        #listaFavoritas { display: none; margin-top: 20px; }
     </style>
     <script th:inline="javascript">
         document.addEventListener('DOMContentLoaded', function() {
@@ -29,14 +31,25 @@
             let nombreComida = document.getElementById('buscar').value;
             window.location.href = '/buscar?comida=' + encodeURIComponent(nombreComida);
         }
+
+        function mostrarFavoritas() {
+            const lista = document.getElementById('listaFavoritas');
+            lista.style.display = lista.style.display === 'none' ? 'block' : 'none';
+            if (lista.style.display === 'block') {
+                const favoritas = /*[[${favoritas}]]*/ [];
+                lista.innerHTML = '<h2>Favoritas</h2>' + favoritas.map(f => `<p>${f.mealName}</p>`).join('');
+            }
+        }
     </script>
 </head>
 <body>
 <h1>TeleDrink</h1>
+<button class="favorites-btn" onclick="mostrarFavoritas()">Mostrar Favoritas</button>
 <div class="category-grid"></div>
 <div class="search-bar">
     <input type="text" id="buscar" placeholder="Buscar una comida">
     <button onclick="buscarComida()">Buscar</button>
 </div>
+<div id="listaFavoritas"></div>
 </body>
 </html>
