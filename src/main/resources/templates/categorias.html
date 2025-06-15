@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Categorías de TeleDrink</title>
+    <style>
+        .category-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 20px; }
+        .category-item { text-align: center; border: 1px solid #ddd; padding: 10px; }
+        .category-item img { max-width: 100%; height: auto; }
+        .search-bar { margin-top: 20px; text-align: center; }
+        .search-bar input { padding: 5px; width: 200px; }
+        .search-bar button { padding: 5px 10px; }
+    </style>
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            const respuesta = /*[[${categorias}]]*/ '';
+            const data = JSON.parse(respuesta);
+            const categorias = data.categories || [];
+            const grid = document.querySelector('.category-grid');
+            categorias.forEach(categoria => {
+                const div = document.createElement('div');
+                div.className = 'category-item';
+                div.innerHTML = `<img src="${categoria.strCategoryThumb}" alt="${categoria.strCategory}">
+                                 <p>${categoria.strCategory}</p>`;
+                grid.appendChild(div);
+            });
+        });
+
+        function buscarComida() {
+            let nombreComida = document.getElementById('buscar').value;
+            window.location.href = '/buscar?comida=' + encodeURIComponent(nombreComida);
+        }
+    </script>
+</head>
+<body>
+<h1>TeleDrink</h1>
+<div class="category-grid"></div>
+<div class="search-bar">
+    <input type="text" id="buscar" placeholder="Buscar una comida">
+    <button onclick="buscarComida()">Buscar</button>
+</div>
+</body>
+</html>
