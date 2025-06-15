@@ -2,6 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Detalle de Comida - TeleDrink</title>
+  <style>
+    .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border: 1px solid black; }
+  </style>
 </head>
 <body>
 <h1>TeleDrink</h1>
@@ -17,5 +20,21 @@
     <span th:text="${comida.meals[0]['strMeasure' + i] + ' ' + comida.meals[0]['strIngredient' + i]}"></span>
   </li>
 </ul>
+<button id="btnFavorita" th:onclick="'agregarComoFavorita(\'' + ${comida.meals[0].idMeal} + '\', \'' + ${comida.meals[0].strMeal} + '\', \'' + ${comida.meals[0].strMealThumb} + '\', \'' + ${comida.meals[0].strCategory} + '\')'">Agregar a Favoritos</button>
+<div id="modal" class="modal">¡Felicidades! Has agregado esta comida a tus favoritos.</div>
+
+<script>
+  function agregarComoFavorita(id, nombre, imagen, categoria) {
+    fetch('/agregarFavorita', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ idMeal: id, mealName: nombre, mealThumb: imagen, category: categoria })
+    }).then(() => {
+      document.getElementById('modal').style.display = 'block';
+      document.getElementById('btnFavorita').textContent = '✓ Favorita';
+      setTimeout(() => document.getElementById('modal').style.display = 'none', 2000);
+    });
+  }
+</script>
 </body>
 </html>
